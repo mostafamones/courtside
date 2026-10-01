@@ -3,6 +3,7 @@ import SwiftUI
 struct HistoryView: View {
     @Environment(AppStore.self) private var store
     @Binding var setupRequest: SetupRequest?
+    @State private var favouriting: MatchRecord?
 
     var body: some View {
         NavigationStack {
@@ -10,7 +11,11 @@ struct HistoryView: View {
                 ForEach(store.history) { record in
                     NavigationLink(value: record.id) { MatchSummaryRow(record: record) }
                         .swipeActions {
-                            Button("Delete", role: .destructive) { store.deleteMatch(record) }
+                            Button("Delete", role: .destructive) { store.deleteMatch(record) }.tint(.red)
+                        }
+                        .swipeActions(edge: .leading) {
+                            Button("Favourite", systemImage: "star.fill") { favouriting = record }
+                                .tint(.orange)
                         }
                 }
             }
@@ -20,7 +25,11 @@ struct HistoryView: View {
                                            description: Text("Completed and ended-early matches appear here."))
                 }
             }
+            .sheet(item: $favouriting) { record in
+                NewFavouriteSheet(setup: record.setup, suggestedName: record.presetName ?? "")
+            }
             .navigationTitle("History")
+            .toolbarTitleDisplayMode(.inlineLarge)
             .navigationDestination(for: UUID.self) { id in
                 MatchDetailView(matchID: id, setupRequest: $setupRequest)
             }
@@ -45,7 +54,7 @@ struct MatchDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                     if let preset = record.presetName {
-                        LabeledContent("Preset", value: preset)
+                        LabeledContent("Favourite", value: preset)
                     }
                 }
 
@@ -110,5 +119,52 @@ struct MatchDetailView: View {
         if set.isMatchTiebreak, let tb = set.tiebreak { return "\(tb.a)–\(tb.b)" }
         if let tb = set.tiebreak { return "\(set.games.a)–\(set.games.b)  (\(tb.a)–\(tb.b))" }
         return "\(set.games.a)–\(set.games.b)"
+    }
+}
+
+/// Names a lineup and picks its emoji before saving it as a favourite.
+struct NewFavouriteSheet: View {
+    @Environment(AppStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    let setup: MatchSetup
+    @State private var name: String
+    @State private var emoji = Favourite.defaultEmoji
+
+    init(setup: MatchSetup, suggestedName: String) {
+        self.setup = setup
+        _name = State(initialValue: suggestedName)
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField("Name, e.g. Thursday padel", text: $name)
+                    EmojiPicker(selection: $emoji)
+                }
+                Section("Lineup") {
+                    TeamLine(setup: setup, team: .a)
+                    TeamLine(setup: setup, team: .b)
+                }
+            }
+            .navigationTitle("New favourite")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        if let name = name.nilIfBlank {
+                            store.saveFavourite(Favourite(name: name, emoji: emoji, setup: setup))
+                        }
+                        dismiss()
+                    }
+                    .disabled(name.nilIfBlank == nil)
+                    .fontWeight(.semibold)
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
     }
 }

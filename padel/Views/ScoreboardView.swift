@@ -1,13 +1,15 @@
 import SwiftUI
 
-/// Courtside landscape scoreboard: two large side-by-side team areas.
-/// Tap a team's area to add a point, double tap to remove one.
+/// Courtside scoreboard. Landscape lays the teams out like the court seen from the side;
+/// portrait stacks them like the Watch. Tap a team's area to add a point, double tap to remove one.
 struct ScoreboardView: View {
     @Environment(AppStore.self) private var store
     @Binding var setupRequest: SetupRequest?
     @Binding var isPresented: Bool
     @State private var feedback = 0
     @State private var confirmEndEarly = false
+    /// Phone-only: shows team B on the left/top, e.g. when the phone is moved to the other side of the court.
+    @State private var flipped = false
 
     /// The active match, or the match that was just completed (so the result and undo stay reachable).
     private var record: MatchRecord? {
@@ -19,32 +21,33 @@ struct ScoreboardView: View {
             Color.black.ignoresSafeArea()
             if let record {
                 let state = record.state
-                HStack(spacing: 0) {
-                    TeamPanel(record: record, state: state, team: .a)
-                    Rectangle().fill(Color(white: 0.18)).frame(width: 1).padding(.top, 64).padding(.bottom, 24)
-                    TeamPanel(record: record, state: state, team: .b)
-                }
-                .overlay(alignment: .top) { topBar(state: state) }
-                .overlay(alignment: .bottom) {
-                    if state.needsGoldenPointSide {
-                        GoldenPointPicker(receivers: record.setup.teamName(state.servingTeam.opponent)) {
-                            store.apply(.chooseGoldenPointSide($0))
+                court(record: record, state: state)
+                    .overlay(alignment: .top) { topBar(state: state) }
+                    .overlay(alignment: .bottom) {
+                        if state.needsGoldenPointSide {
+                            GoldenPointPicker(receivers: record.setup.teamName(state.servingTeam.opponent)) {
+                                store.apply(.chooseGoldenPointSide($0))
+                            }
+                            .padding(.bottom, 64)
                         }
-                        .padding(.bottom, 64)
                     }
-                }
-                .overlay {
-                    if state.isFinished {
-                        MatchCompleteCard(record: record, state: state,
-                                          onUndo: { store.undo() },
-                                          onPlayAgain: playAgain,
-                                          onDone: { isPresented = false })
-                    } else if let winner = state.pendingGameWinner {
-                        ConfirmGameCard(record: record, state: state, winner: winner,
-                                        onConfirm: { if store.apply(.confirmGame) { feedback += 1 } },
-                                        onUndo: { store.undo() })
+                    .overlay {
+                        if state.isFinished {
+                            MatchCompleteCard(record: record, state: state,
+                                              onUndo: { store.undo() },
+                                              onPlayAgain: playAgain,
+                                              onDone: { isPresented = false })
+                        }
                     }
-                }
+                    .alert(confirmTitle(record: record, state: state), isPresented: Binding(
+                        get: { state.pendingGameWinner != nil && !state.isFinished },
+                        set: { _ in }
+                    )) {
+                        Button("Confirm") { if store.apply(.confirmGame) { feedback += 1 } }
+                        Button("Undo last point", role: .cancel) { store.undo() }
+                    } message: {
+                        Text(confirmMessage(state: state))
+                    }
             } else {
                 Color.clear.onAppear { isPresented = false }
             }
@@ -60,43 +63,77 @@ struct ScoreboardView: View {
         } message: {
             Text("The score so far is saved in history as ended early.")
         }
-        .onAppear {
-            UIApplication.shared.isIdleTimerDisabled = true
-            AppDelegate.lock(.landscape)
-        }
-        .onDisappear {
-            UIApplication.shared.isIdleTimerDisabled = false
-            AppDelegate.lock(.allButUpsideDown)
-        }
+        .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
+        .onDisappear { UIApplication.shared.isIdleTimerDisabled = false }
         .environment(\.scoreAction) { action in
             if store.apply(action) { feedback += 1 }
         }
+    }
+
+    private func court(record: MatchRecord, state: MatchState) -> some View {
+        GeometryReader { geo in
+            let first: TeamSide = flipped ? .b : .a
+            let divider = Color(white: 0.18)
+            if geo.size.width > geo.size.height {
+                HStack(spacing: 0) {
+                    TeamPanel(record: record, state: state, team: first, position: .left)
+                    divider.frame(width: 1, height: geo.size.height / 2)
+                    TeamPanel(record: record, state: state, team: first.opponent, position: .right)
+                }
+            } else {
+                VStack(spacing: 0) {
+                    TeamPanel(record: record, state: state, team: first, position: .top)
+                    divider.frame(width: geo.size.width / 2, height: 1)
+                    TeamPanel(record: record, state: state, team: first.opponent, position: .bottom)
+                }
+            }
+        }
+        // Keep clear of the Dynamic Island and rounded corners on the sides and top.
+        .ignoresSafeArea(.container, edges: .bottom)
+        .animation(.snappy, value: flipped)
     }
 
     private func topBar(state: MatchState) -> some View {
         HStack {
             CircleButton(systemImage: "chevron.down", label: "Minimize") { isPresented = false }
             Spacer()
-            Text(state.gameLabel)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(Color(white: 0.5))
-                .tracking(1)
-            Spacer()
             CircleButton(systemImage: "arrow.uturn.backward", label: "Undo last action") { store.undo() }
                 .disabled(record?.actions.isEmpty ?? true)
-            if !state.isFinished {
-                Menu {
+            Menu {
+                Button("Switch sides", systemImage: "arrow.left.arrow.right") { flipped.toggle() }
+                Button("Switch sides on Watch", systemImage: "applewatch") { store.switchWatchSides() }
+                if !state.isFinished {
                     Button("End match early", systemImage: "flag.checkered", role: .destructive) {
                         confirmEndEarly = true
                     }
-                } label: {
-                    CircleButtonLabel(systemImage: "ellipsis")
                 }
-                .accessibilityLabel("More")
+            } label: {
+                CircleButtonLabel(systemImage: "ellipsis")
             }
+            .accessibilityLabel("More")
+        }
+        // Centred on the screen regardless of how many buttons sit on each side.
+        .overlay {
+            Text(state.statusLabel)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Color(white: 0.5))
+                .tracking(1)
         }
         .padding(.horizontal, 16)
         .padding(.top, 8)
+    }
+
+    private func confirmTitle(record: MatchRecord, state: MatchState) -> String {
+        guard let winner = state.pendingGameWinner else { return "" }
+        return record.setup.teamName(winner)
+    }
+
+    private func confirmMessage(state: MatchState) -> String {
+        switch state.gameKind {
+        case .regular: "Win the game."
+        case .tiebreak: "Win the tiebreak and the set."
+        case .matchTiebreak: "Win the match tiebreak."
+        }
     }
 
     private func playAgain() {
@@ -119,42 +156,39 @@ extension EnvironmentValues {
     }
 }
 
+/// Where a team's panel sits on screen.
+enum PanelPosition {
+    case left, right, top, bottom
+
+    var isLandscape: Bool { self == .left || self == .right }
+}
+
 struct TeamPanel: View {
     @Environment(\.scoreAction) private var scoreAction
     let record: MatchRecord
     let state: MatchState
     let team: TeamSide
+    let position: PanelPosition
+
+    private enum Edge { case top, bottom }
 
     var body: some View {
-        let color = record.setup.colors[team].color
         VStack(spacing: 0) {
-            Spacer(minLength: 44)
-            HStack(alignment: .firstTextBaseline, spacing: 24) {
-                Text("\(state.games[team])")
-                    .font(.system(size: 64, weight: .bold, design: .rounded))
-                    .foregroundStyle(Color(white: 0.45))
-                    .accessibilityLabel("\(state.games[team]) games")
-                Text(state.pointLabel(for: team))
-                    .font(.system(size: state.pendingGameWinner == team ? 96 : 150, weight: .heavy, design: .rounded))
-                    .foregroundStyle(color)
-                    .minimumScaleFactor(0.4)
-                    .lineLimit(1)
-                    .contentTransition(.numericText())
-                    .accessibilityLabel("\(state.pointLabel(for: team)) points")
-            }
-            .frame(maxWidth: .infinity)
-            .animation(.snappy, value: state.points)
-
-            SetsStrip(record: record, state: state, team: team)
-                .padding(.top, 4)
-
-            Spacer(minLength: 8)
-            serverRow
-                .frame(height: 36)
-                .padding(.horizontal, 24)
-                .padding(.bottom, 16)
+            serverSlot(.top)
+            Spacer(minLength: 0)
+            if !position.isLandscape { scoreBlock }
+            Spacer(minLength: 0)
+            serverSlot(.bottom)
         }
+        .padding(.top, position == .bottom ? 16 : 64)
+        .padding(.bottom, position == .top ? 16 : 28)
+        .padding(.horizontal, 44)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        // Landscape: score centred on the full screen height, independent of the
+        // top bar / home indicator padding around the server rows.
+        .overlay {
+            if position.isLandscape { scoreBlock.padding(.horizontal, 44) }
+        }
         .contentShape(Rectangle())
         // Double tap must win over single tap, so a removal never also adds a point.
         .gesture(
@@ -167,30 +201,105 @@ struct TeamPanel: View {
         .accessibilityAction(named: "Remove point") { scoreAction(.removePoint(team)) }
     }
 
-    /// Ball + name toward the edge the server is serving from (server's perspective):
-    /// left edge with ball first, or right edge with ball last.
-    @ViewBuilder
-    private var serverRow: some View {
-        if state.servingTeam == team && !state.isFinished {
-            let name = record.setup.players[state.server].name.uppercased()
-            let ball = Circle().fill(Color(red: 0.45, green: 0.95, blue: 0.1)).frame(width: 14, height: 14)
-            HStack(spacing: 10) {
-                if state.serveSide == .left {
-                    ball
-                    Text(name)
-                    Spacer()
-                } else {
-                    Spacer()
-                    Text(name)
-                    ball
+    /// Games on the outer edge, point score centred in the remaining space (so it sits
+    /// toward the middle in landscape and never collides with the games), sets underneath it.
+    private var scoreBlock: some View {
+        let landscape = position.isLandscape
+        // Sized by a hidden "00" so "GAME" shrinks to fit instead of resizing the layout.
+        let font = Font.system(size: landscape ? 150 : 120, weight: .heavy, design: .rounded)
+        let points = Text("00").font(font).hidden()
+            .overlay {
+                Text(state.pointLabel(for: team))
+                    .font(font)
+                    .foregroundStyle(record.setup.colors[team].color)
+                    .minimumScaleFactor(0.2)
+                    .lineLimit(1)
+                    .contentTransition(.numericText())
+                    .accessibilityLabel("\(state.pointLabel(for: team)) points")
+            }
+            // Previous sets hang below the score without affecting its centring,
+            // so the point score and games count stay centred together.
+            .overlay(alignment: .bottom) {
+                SetsStrip(record: record, state: state, team: team)
+                    .fixedSize()
+                    .alignmentGuide(.bottom) { _ in landscape ? 16 : 14 }
+            }
+            .frame(maxWidth: .infinity)
+        let games = Text("\(state.games[team])")
+            .font(.system(size: landscape ? 64 : 52, weight: .bold, design: .rounded))
+            .foregroundStyle(Color(white: 0.45))
+            .accessibilityLabel("\(state.games[team]) games")
+        return Group {
+            switch position {
+            case .left:
+                HStack(spacing: 16) { games; points }
+            case .right:
+                HStack(spacing: 16) { points; games }
+            case .top, .bottom:
+                // Portrait: point score dead-centre, like the Watch.
+                ZStack(alignment: .leading) {
+                    points
+                    games
                 }
             }
-            .font(.title3.weight(.semibold))
-            .foregroundStyle(.white)
-            .accessibilityLabel("\(name) serving from the \(state.serveSide.rawValue)")
-        } else {
-            Color.clear
         }
+        .animation(.snappy, value: state.points)
+    }
+
+    private var isServing: Bool { state.servingTeam == team && !state.isFinished }
+
+    /// Landscape mirrors the court: each team faces the net in the middle, so the server's
+    /// right is the bottom of the screen on the left half and the top on the right half.
+    /// Portrait keeps the server on the outer edge, like the Watch.
+    private var serverEdge: Edge {
+        switch position {
+        case .left: state.serveSide == .right ? .bottom : .top
+        case .right: state.serveSide == .right ? .top : .bottom
+        case .top: .top
+        case .bottom: .bottom
+        }
+    }
+
+    @ViewBuilder
+    private func serverSlot(_ edge: Edge) -> some View {
+        Group {
+            if isServing && serverEdge == edge {
+                serverRow
+            } else {
+                Color.clear
+            }
+        }
+        .frame(height: 36)
+    }
+
+    private var serverRow: some View {
+        let name = record.setup.players[state.server].name.uppercased()
+        let label = Text(name).font(.title3.weight(.semibold)).tracking(-0.5).foregroundStyle(.white)
+        let alignment: Alignment = switch position {
+        case .left, .right: .center
+        case .top: .leading
+        case .bottom: .trailing
+        }
+        return HStack(spacing: 8) {
+            if !position.isLandscape && state.serveSide == .left {
+                ServeBall(size: 14)
+                label
+            } else {
+                label
+                ServeBall(size: 14)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: alignment)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(name) serving from the \(state.serveSide.rawValue)")
+    }
+}
+
+struct ServeBall: View {
+    let size: CGFloat
+
+    var body: some View {
+        Circle().fill(Color(red: 0.45, green: 0.95, blue: 0.1)).frame(width: size, height: size)
     }
 }
 
@@ -212,56 +321,6 @@ struct SetsStrip: View {
 }
 
 // MARK: - Overlays
-
-struct ConfirmGameCard: View {
-    let record: MatchRecord
-    let state: MatchState
-    let winner: TeamSide
-    let onConfirm: () -> Void
-    let onUndo: () -> Void
-
-    private var title: String {
-        switch state.gameKind {
-        case .regular: "Game"
-        case .tiebreak: "Tiebreak & set"
-        case .matchTiebreak: "Match tiebreak"
-        }
-    }
-
-    var body: some View {
-        let color = record.setup.colors[winner].color
-        VStack(spacing: 14) {
-            Text("\(title) · \(record.setup.teamName(winner))")
-                .font(.headline)
-                .foregroundStyle(color)
-            Text("Double tap a side to correct, or confirm to record it.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            HStack(spacing: 12) {
-                Button(action: onUndo) {
-                    Label("Undo", systemImage: "arrow.uturn.backward")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-                .tint(.white)
-                Button(action: onConfirm) {
-                    Label("Confirm", systemImage: "checkmark")
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(color)
-                .foregroundStyle(.black)
-            }
-            .controlSize(.large)
-        }
-        .padding(20)
-        .frame(width: 360)
-        .background(Color(white: 0.1), in: RoundedRectangle(cornerRadius: 24))
-        .overlay(RoundedRectangle(cornerRadius: 24).stroke(color.opacity(0.5), lineWidth: 1))
-        .shadow(radius: 30)
-    }
-}
 
 struct GoldenPointPicker: View {
     let receivers: String

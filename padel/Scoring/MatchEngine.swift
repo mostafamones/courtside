@@ -131,6 +131,15 @@ nonisolated struct MatchState: Codable, Hashable, Sendable {
         }
     }
 
+    /// e.g. "SET 1 · GAME 3", shown above the scoreboard.
+    var statusLabel: String {
+        switch gameKind {
+        case .regular: "SET \(setNumber) · GAME \(gameNumber)"
+        case .tiebreak: "SET \(setNumber) · TIEBREAK"
+        case .matchTiebreak: "MATCH TIEBREAK"
+        }
+    }
+
     func pointLabel(for team: TeamSide) -> String {
         if pendingGameWinner == team { return "GAME" }
         let mine = points[team], theirs = points[team.opponent]

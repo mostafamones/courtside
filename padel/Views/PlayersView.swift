@@ -11,16 +11,29 @@ struct PlayersView: View {
                 ForEach(store.sortedPlayers) { player in
                     NavigationLink(value: player.id) {
                         VStack(alignment: .leading) {
-                            Text(player.displayName).font(.headline)
+                            HStack(spacing: 6) {
+                                Text(player.displayName).font(.headline)
+                                if store.myPlayerID == player.id {
+                                    Text("Me")
+                                        .font(.caption.weight(.semibold))
+                                        .padding(.horizontal, 6)
+                                        .padding(.vertical, 2)
+                                        .background(.tint.opacity(0.25), in: Capsule())
+                                }
+                            }
                             if player.nickname?.nilIfBlank != nil {
                                 Text(player.name).font(.caption).foregroundStyle(.secondary)
                             }
                         }
                     }
                     .swipeActions {
-                        Button("Delete", role: .destructive) { store.deletePlayer(player) }
-                        Button("Edit") { editing = player }
+                        Button("Delete", role: .destructive) { store.deletePlayer(player) }.tint(.red)
+                        Button("Edit") { editing = player }.tint(.blue)
                     }
+                    .swipeActions(edge: .leading) {
+                        meButton(player).tint(.indigo)
+                    }
+                    .contextMenu { meButton(player) }
                 }
             }
             .overlay {
@@ -30,6 +43,15 @@ struct PlayersView: View {
                 }
             }
             .navigationTitle("Players")
+            .toolbarTitleDisplayMode(.inlineLarge)
+            .safeAreaInset(edge: .bottom) {
+                if store.myPlayerID == nil && !store.players.isEmpty {
+                    Text("Swipe right on yourself to mark “Me”.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .padding()
+                }
+            }
             .toolbar {
                 Button("Add player", systemImage: "plus") { isAdding = true }
             }
@@ -42,6 +64,15 @@ struct PlayersView: View {
             .sheet(item: $editing) { player in
                 PlayerEditor(player: player)
             }
+        }
+    }
+}
+
+extension PlayersView {
+    private func meButton(_ player: Player) -> some View {
+        let isMe = store.myPlayerID == player.id
+        return Button(isMe ? "Not me" : "This is me", systemImage: isMe ? "person.crop.circle.badge.xmark" : "person.crop.circle.badge.checkmark") {
+            store.myPlayerID = isMe ? nil : player.id
         }
     }
 }

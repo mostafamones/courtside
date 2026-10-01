@@ -55,9 +55,25 @@
 		A1C000000000000000000002 /* padelWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = padelWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A1C00000000000000000000F /* Exceptions for "padel" folder in "padelWatch" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/Models.swift,
+				Sync/MatchSync.swift,
+				Scoring/MatchEngine.swift,
+				Scoring/MatchRules.swift,
+			);
+			target = A1C000000000000000000001 /* padelWatch */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D0B60EA0306DBA4C00F212EC /* padel */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A1C00000000000000000000F /* Exceptions for "padel" folder in "padelWatch" target */,
+			);
 			path = padel;
 			sourceTree = "<group>";
 		};

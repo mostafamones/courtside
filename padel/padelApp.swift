@@ -29,7 +29,13 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct padelApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @State private var store = AppStore()
+    @State private var store: AppStore
+
+    init() {
+        let store = AppStore()
+        store.startWatchSync()
+        _store = State(initialValue: store)
+    }
 
     var body: some Scene {
         WindowGroup {

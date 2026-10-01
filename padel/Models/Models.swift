@@ -87,11 +87,43 @@ nonisolated struct MatchSetup: Codable, Hashable, Sendable {
     }
 }
 
-nonisolated struct MatchPreset: Codable, Hashable, Identifiable, Sendable {
+/// A saved lineup (players, colors, rules, serving) for a recurring group, e.g. "🎾 Thursday padel".
+/// Synced to the Watch so matches can be started from there.
+nonisolated struct Favourite: Codable, Hashable, Identifiable, Sendable {
+    static let defaultEmoji = "🎾"
+    static let emojiChoices = ["🎾", "🔥", "⚡️", "🏆", "💪", "😎", "🌞", "🌙",
+                               "🦁", "🐺", "🦅", "🚀", "💎", "🍀", "🎯", "👑"]
+
     var id = UUID()
     var name: String
+    var emoji: String = Favourite.defaultEmoji
     var setup: MatchSetup
     var updatedAt = Date()
+
+    var title: String { "\(emoji) \(name)" }
+
+    init(name: String, emoji: String = Favourite.defaultEmoji, setup: MatchSetup) {
+        self.name = name
+        self.emoji = emoji
+        self.setup = setup
+    }
+
+    // Older "presets" were saved without an emoji.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        name = try c.decode(String.self, forKey: .name)
+        emoji = try c.decodeIfPresent(String.self, forKey: .emoji) ?? Favourite.defaultEmoji
+        setup = try c.decode(MatchSetup.self, forKey: .setup)
+        updatedAt = try c.decodeIfPresent(Date.self, forKey: .updatedAt) ?? Date()
+    }
+}
+
+/// Saved scoring rules (e.g. "Fast match"), reusable across any lineup.
+nonisolated struct RulePreset: Codable, Hashable, Identifiable, Sendable {
+    var id = UUID()
+    var name: String
+    var rules: MatchRules
 }
 
 nonisolated enum MatchStatus: String, Codable, Hashable, Sendable {

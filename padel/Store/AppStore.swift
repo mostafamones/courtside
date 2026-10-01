@@ -6,10 +6,12 @@ import Observation
 @Observable
 final class AppStore {
     private(set) var players: [Player] = []
-    private(set) var presets: [MatchPreset] = []
+    private(set) var favourites: [Favourite] = []
+    private(set) var rulePresets: [RulePreset] = []
     private(set) var matches: [MatchRecord] = []
 
     @ObservationIgnored private let directory: URL
+    @ObservationIgnored private var sync: MatchSync?
 
     init(directory: URL? = nil) {
         let base = directory ?? FileManager.default
@@ -18,8 +20,61 @@ final class AppStore {
         self.directory = base
         try? FileManager.default.createDirectory(at: base, withIntermediateDirectories: true)
         players = load("players.json") ?? []
-        presets = load("presets.json") ?? []
+        // Favourites used to be called presets; pick up the old file once.
+        favourites = load("favourites.json") ?? load("presets.json") ?? []
+        rulePresets = load("rulePresets.json") ?? []
         matches = load("matches.json") ?? []
+    }
+
+    // MARK: Watch sync
+
+    /// Mirrors the current match to the Watch and applies changes scored there.
+    func startWatchSync() {
+        let sync = MatchSync()
+        sync.onReceive = { [weak self] update in self?.receiveFromWatch(update.record) }
+        sync.myPlayerID = myPlayerID
+        sync.favourites = sortedFavourites
+        sync.activate()
+        self.sync = sync
+        sync.send(watchMatch)
+    }
+
+    /// The phone owner's player profile. Their team defaults to the bottom of the Watch.
+    var myPlayerID: UUID? = UserDefaults.standard.string(forKey: "myPlayerID").flatMap(UUID.init(uuidString:)) {
+        didSet {
+            UserDefaults.standard.set(myPlayerID?.uuidString, forKey: "myPlayerID")
+            sync?.myPlayerID = myPlayerID
+            sync?.send(watchMatch)
+        }
+    }
+
+    /// Swaps which team is on top of the Watch scoreboard, so the wearer's team can sit at the bottom.
+    func switchWatchSides() { sync?.sendSwitchWatchSides() }
+
+    /// The match the Watch should show: the active one, or the one that just finished.
+    private var watchMatch: MatchRecord? {
+        if let activeMatch { return activeMatch }
+        guard let last = matches.last, last.status == .completed else { return nil }
+        return last
+    }
+
+    private func syncFavourites() {
+        sync?.favourites = sortedFavourites
+        sync?.send(watchMatch)
+    }
+
+    private func receiveFromWatch(_ record: MatchRecord?) {
+        guard let record else { return }
+        if let index = matches.firstIndex(where: { $0.id == record.id }) {
+            matches[index] = record
+        } else {
+            // A match started on the Watch from a favourite. Only one match is active at a time.
+            for index in matches.indices where matches[index].status == .inProgress {
+                end(at: index, status: .endedEarly)
+            }
+            matches.append(record)
+        }
+        save(matches, "matches.json")
     }
 
     // MARK: Players
@@ -43,6 +98,7 @@ final class AppStore {
     }
 
     func deletePlayer(_ player: Player) {
+        if myPlayerID == player.id { myPlayerID = nil }
         players.removeAll { $0.id == player.id }
         save(players, "players.json")
     }
@@ -53,22 +109,48 @@ final class AppStore {
         history.filter { $0.includes(playerID: player.id) }
     }
 
-    // MARK: Presets
+    // MARK: Favourites
 
-    func savePreset(_ preset: MatchPreset) {
-        var preset = preset
-        preset.updatedAt = Date()
-        if let index = presets.firstIndex(where: { $0.id == preset.id }) {
-            presets[index] = preset
-        } else {
-            presets.append(preset)
-        }
-        save(presets, "presets.json")
+    var sortedFavourites: [Favourite] {
+        favourites.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
     }
 
-    func deletePreset(_ preset: MatchPreset) {
-        presets.removeAll { $0.id == preset.id }
-        save(presets, "presets.json")
+    func saveFavourite(_ favourite: Favourite) {
+        var favourite = favourite
+        favourite.updatedAt = Date()
+        if let index = favourites.firstIndex(where: { $0.id == favourite.id }) {
+            favourites[index] = favourite
+        } else {
+            favourites.append(favourite)
+        }
+        save(favourites, "favourites.json")
+        syncFavourites()
+    }
+
+    func deleteFavourite(_ favourite: Favourite) {
+        favourites.removeAll { $0.id == favourite.id }
+        save(favourites, "favourites.json")
+        syncFavourites()
+    }
+
+    // MARK: Rule presets
+
+    var sortedRulePresets: [RulePreset] {
+        rulePresets.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    }
+
+    func saveRulePreset(_ preset: RulePreset) {
+        if let index = rulePresets.firstIndex(where: { $0.id == preset.id }) {
+            rulePresets[index] = preset
+        } else {
+            rulePresets.append(preset)
+        }
+        save(rulePresets, "rulePresets.json")
+    }
+
+    func deleteRulePreset(_ preset: RulePreset) {
+        rulePresets.removeAll { $0.id == preset.id }
+        save(rulePresets, "rulePresets.json")
     }
 
     // MARK: Matches
@@ -144,7 +226,10 @@ final class AppStore {
         if status == .endedEarly { matches[index].endedAt = Date() }
     }
 
-    private func persistMatches() { save(matches, "matches.json") }
+    private func persistMatches() {
+        save(matches, "matches.json")
+        sync?.send(watchMatch)
+    }
 
     // MARK: Files
 

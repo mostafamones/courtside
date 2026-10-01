@@ -3,12 +3,12 @@ import SwiftUI
 /// Identifies what the app is presenting full screen / as a sheet.
 enum SetupRequest: Identifiable {
     case newMatch(MatchSetup?, presetName: String?)
-    case editPreset(MatchPreset)
+    case editFavourite(Favourite)
 
     var id: String {
         switch self {
         case .newMatch: "new"
-        case .editPreset(let preset): preset.id.uuidString
+        case .editFavourite(let favourite): favourite.id.uuidString
         }
     }
 }
@@ -31,8 +31,8 @@ struct RootView: View {
             }
         }
         .sheet(item: $setupRequest) { request in
-            MatchSetupView(request: request) { setup, presetName in
-                store.startMatch(setup, presetName: presetName)
+            MatchSetupView(request: request) { setup, favouriteName in
+                store.startMatch(setup, presetName: favouriteName)
                 setupRequest = nil
                 showScoreboard = true
             }
