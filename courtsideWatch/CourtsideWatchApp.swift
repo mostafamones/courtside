@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct PadelWatchApp: App {
+struct CourtsideWatchApp: App {
     @State private var store = WatchMatchStore()
 
     var body: some Scene {

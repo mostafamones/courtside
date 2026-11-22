@@ -1,13 +1,13 @@
 //
-//  padelUITestsLaunchTests.swift
-//  padelUITests
+//  CourtsideUITestsLaunchTests.swift
+//  courtsideUITests
 //
 //  Created by Mostafa Mones on 01/10/2026.
 //
 
 import XCTest
 
-final class padelUITestsLaunchTests: XCTestCase {
+final class CourtsideUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

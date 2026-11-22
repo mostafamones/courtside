@@ -1,13 +1,13 @@
 //
-//  padelTests.swift
-//  padelTests
+//  CourtsideTests.swift
+//  courtsideTests
 //
 //  Created by Mostafa Mones on 01/10/2026.
 //
 
 import Foundation
 import Testing
-@testable import padel
+@testable import courtside
 
 /// Serve order: A1 (0), B1 (2), A2 (1), B2 (3).
 private let order = [0, 2, 1, 3]

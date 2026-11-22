@@ -7,30 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1C00000000000000000000B /* padelWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A1C000000000000000000002 /* padelWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A1C00000000000000000000B /* courtsideWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A1C000000000000000000002 /* courtsideWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A1C00000000000000000000C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0B60E96306DBA4C00F212EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A1C000000000000000000001;
+			remoteInfo = courtsideWatch;
+		};
 		D0B60EAC306DBA4F00F212EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0B60E96306DBA4C00F212EC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D0B60E9D306DBA4C00F212EC;
-			remoteInfo = padel;
+			remoteInfo = courtside;
 		};
 		D0B60EB6306DBA4F00F212EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0B60E96306DBA4C00F212EC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D0B60E9D306DBA4C00F212EC;
-			remoteInfo = padel;
-		};
-		A1C00000000000000000000C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D0B60E96306DBA4C00F212EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A1C000000000000000000001;
-			remoteInfo = padelWatch;
+			remoteInfo = courtside;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -41,7 +41,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				A1C00000000000000000000B /* padelWatch.app in Embed Watch Content */,
+				A1C00000000000000000000B /* courtsideWatch.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,52 +49,60 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D0B60E9E306DBA4C00F212EC /* padel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = padel.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0B60EAB306DBA4F00F212EC /* padelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = padelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0B60EB5306DBA4F00F212EC /* padelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = padelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1C000000000000000000002 /* padelWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = padelWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1C000000000000000000002 /* courtsideWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = courtsideWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0B60E9E306DBA4C00F212EC /* courtside.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = courtside.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0B60EAB306DBA4F00F212EC /* courtsideTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = courtsideTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0B60EB5306DBA4F00F212EC /* courtsideUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = courtsideUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A1C00000000000000000000F /* Exceptions for "padel" folder in "padelWatch" target */ = {
+		A1C00000000000000000000F /* Exceptions for "courtside" folder in "courtsideWatch" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Courtside.icon,
 				Models/Models.swift,
-				Sync/MatchSync.swift,
 				Scoring/MatchEngine.swift,
 				Scoring/MatchRules.swift,
+				Sync/MatchSync.swift,
 			);
-			target = A1C000000000000000000001 /* padelWatch */;
+			target = A1C000000000000000000001 /* courtsideWatch */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D0B60EA0306DBA4C00F212EC /* padel */ = {
+		A1C000000000000000000003 /* courtsideWatch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = courtsideWatch;
+			sourceTree = "<group>";
+		};
+		D0B60EA0306DBA4C00F212EC /* courtside */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A1C00000000000000000000F /* Exceptions for "padel" folder in "padelWatch" target */,
+				A1C00000000000000000000F /* Exceptions for "courtside" folder in "courtsideWatch" target */,
 			);
-			path = padel;
+			path = courtside;
 			sourceTree = "<group>";
 		};
-		D0B60EAE306DBA4F00F212EC /* padelTests */ = {
+		D0B60EAE306DBA4F00F212EC /* courtsideTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = padelTests;
+			path = courtsideTests;
 			sourceTree = "<group>";
 		};
-		D0B60EB8306DBA4F00F212EC /* padelUITests */ = {
+		D0B60EB8306DBA4F00F212EC /* courtsideUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = padelUITests;
-			sourceTree = "<group>";
-		};
-		A1C000000000000000000003 /* padelWatch */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = padelWatch;
+			path = courtsideUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A1C000000000000000000005 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0B60E9B306DBA4C00F212EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -116,23 +124,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A1C000000000000000000005 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		D0B60E95306DBA4C00F212EC = {
 			isa = PBXGroup;
 			children = (
-				D0B60EA0306DBA4C00F212EC /* padel */,
-				A1C000000000000000000003 /* padelWatch */,
-				D0B60EAE306DBA4F00F212EC /* padelTests */,
-				D0B60EB8306DBA4F00F212EC /* padelUITests */,
+				D0B60EA0306DBA4C00F212EC /* courtside */,
+				A1C000000000000000000003 /* courtsideWatch */,
+				D0B60EAE306DBA4F00F212EC /* courtsideTests */,
+				D0B60EB8306DBA4F00F212EC /* courtsideUITests */,
 				D0B60E9F306DBA4C00F212EC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -140,10 +141,10 @@
 		D0B60E9F306DBA4C00F212EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0B60E9E306DBA4C00F212EC /* padel.app */,
-				A1C000000000000000000002 /* padelWatch.app */,
-				D0B60EAB306DBA4F00F212EC /* padelTests.xctest */,
-				D0B60EB5306DBA4F00F212EC /* padelUITests.xctest */,
+				D0B60E9E306DBA4C00F212EC /* courtside.app */,
+				A1C000000000000000000002 /* courtsideWatch.app */,
+				D0B60EAB306DBA4F00F212EC /* courtsideTests.xctest */,
+				D0B60EB5306DBA4F00F212EC /* courtsideUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,9 +152,31 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D0B60E9D306DBA4C00F212EC /* padel */ = {
+		A1C000000000000000000001 /* courtsideWatch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0B60EBF306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "padel" */;
+			buildConfigurationList = A1C000000000000000000007 /* Build configuration list for PBXNativeTarget "courtsideWatch" */;
+			buildPhases = (
+				A1C000000000000000000004 /* Sources */,
+				A1C000000000000000000005 /* Frameworks */,
+				A1C000000000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A1C000000000000000000003 /* courtsideWatch */,
+			);
+			name = courtsideWatch;
+			packageProductDependencies = (
+			);
+			productName = courtsideWatch;
+			productReference = A1C000000000000000000002 /* courtsideWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D0B60E9D306DBA4C00F212EC /* courtside */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0B60EBF306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "courtside" */;
 			buildPhases = (
 				D0B60E9A306DBA4C00F212EC /* Sources */,
 				D0B60E9B306DBA4C00F212EC /* Frameworks */,
@@ -166,18 +189,18 @@
 				A1C00000000000000000000D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D0B60EA0306DBA4C00F212EC /* padel */,
+				D0B60EA0306DBA4C00F212EC /* courtside */,
 			);
-			name = padel;
+			name = courtside;
 			packageProductDependencies = (
 			);
-			productName = padel;
-			productReference = D0B60E9E306DBA4C00F212EC /* padel.app */;
+			productName = courtside;
+			productReference = D0B60E9E306DBA4C00F212EC /* courtside.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D0B60EAA306DBA4F00F212EC /* padelTests */ = {
+		D0B60EAA306DBA4F00F212EC /* courtsideTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0B60EC2306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "padelTests" */;
+			buildConfigurationList = D0B60EC2306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "courtsideTests" */;
 			buildPhases = (
 				D0B60EA7306DBA4F00F212EC /* Sources */,
 				D0B60EA8306DBA4F00F212EC /* Frameworks */,
@@ -189,18 +212,18 @@
 				D0B60EAD306DBA4F00F212EC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D0B60EAE306DBA4F00F212EC /* padelTests */,
+				D0B60EAE306DBA4F00F212EC /* courtsideTests */,
 			);
-			name = padelTests;
+			name = courtsideTests;
 			packageProductDependencies = (
 			);
-			productName = padelTests;
-			productReference = D0B60EAB306DBA4F00F212EC /* padelTests.xctest */;
+			productName = courtsideTests;
+			productReference = D0B60EAB306DBA4F00F212EC /* courtsideTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D0B60EB4306DBA4F00F212EC /* padelUITests */ = {
+		D0B60EB4306DBA4F00F212EC /* courtsideUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0B60EC5306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "padelUITests" */;
+			buildConfigurationList = D0B60EC5306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "courtsideUITests" */;
 			buildPhases = (
 				D0B60EB1306DBA4F00F212EC /* Sources */,
 				D0B60EB2306DBA4F00F212EC /* Frameworks */,
@@ -212,36 +235,14 @@
 				D0B60EB7306DBA4F00F212EC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D0B60EB8306DBA4F00F212EC /* padelUITests */,
+				D0B60EB8306DBA4F00F212EC /* courtsideUITests */,
 			);
-			name = padelUITests;
+			name = courtsideUITests;
 			packageProductDependencies = (
 			);
-			productName = padelUITests;
-			productReference = D0B60EB5306DBA4F00F212EC /* padelUITests.xctest */;
+			productName = courtsideUITests;
+			productReference = D0B60EB5306DBA4F00F212EC /* courtsideUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		A1C000000000000000000001 /* padelWatch */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A1C000000000000000000007 /* Build configuration list for PBXNativeTarget "padelWatch" */;
-			buildPhases = (
-				A1C000000000000000000004 /* Sources */,
-				A1C000000000000000000005 /* Frameworks */,
-				A1C000000000000000000006 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				A1C000000000000000000003 /* padelWatch */,
-			);
-			name = padelWatch;
-			packageProductDependencies = (
-			);
-			productName = padelWatch;
-			productReference = A1C000000000000000000002 /* padelWatch.app */;
-			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -269,7 +270,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D0B60E99306DBA4C00F212EC /* Build configuration list for PBXProject "padel" */;
+			buildConfigurationList = D0B60E99306DBA4C00F212EC /* Build configuration list for PBXProject "courtside" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -283,15 +284,22 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A1C000000000000000000001 /* padelWatch */,
-				D0B60E9D306DBA4C00F212EC /* padel */,
-				D0B60EAA306DBA4F00F212EC /* padelTests */,
-				D0B60EB4306DBA4F00F212EC /* padelUITests */,
+				A1C000000000000000000001 /* courtsideWatch */,
+				D0B60E9D306DBA4C00F212EC /* courtside */,
+				D0B60EAA306DBA4F00F212EC /* courtsideTests */,
+				D0B60EB4306DBA4F00F212EC /* courtsideUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A1C000000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0B60E9C306DBA4C00F212EC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -313,16 +321,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A1C000000000000000000006 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A1C000000000000000000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
 		D0B60E9A306DBA4C00F212EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -344,34 +352,97 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A1C000000000000000000004 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A1C00000000000000000000D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A1C000000000000000000001 /* courtsideWatch */;
+			targetProxy = A1C00000000000000000000C /* PBXContainerItemProxy */;
+		};
 		D0B60EAD306DBA4F00F212EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D0B60E9D306DBA4C00F212EC /* padel */;
+			target = D0B60E9D306DBA4C00F212EC /* courtside */;
 			targetProxy = D0B60EAC306DBA4F00F212EC /* PBXContainerItemProxy */;
 		};
 		D0B60EB7306DBA4F00F212EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D0B60E9D306DBA4C00F212EC /* padel */;
+			target = D0B60E9D306DBA4C00F212EC /* courtside */;
 			targetProxy = D0B60EB6306DBA4F00F212EC /* PBXContainerItemProxy */;
-		};
-		A1C00000000000000000000D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A1C000000000000000000001 /* padelWatch */;
-			targetProxy = A1C00000000000000000000C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A1C000000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Courtside;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 39YK2DQP92;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Courtside;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = mones.courtside;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mones.courtside.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Debug;
+		};
+		A1C000000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Courtside;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 39YK2DQP92;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Courtside;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = mones.courtside;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mones.courtside.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Release;
+		};
 		D0B60EBD306DBA4F00F212EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -496,13 +567,14 @@
 		D0B60EC0306DBA4F00F212EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Courtside;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 39YK2DQP92;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Courtside;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -513,7 +585,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mones.padel;
+				PRODUCT_BUNDLE_IDENTIFIER = mones.courtside;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -528,13 +600,14 @@
 		D0B60EC1306DBA4F00F212EC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Courtside;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 39YK2DQP92;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Courtside;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -545,7 +618,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mones.padel;
+				PRODUCT_BUNDLE_IDENTIFIER = mones.courtside;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -567,7 +640,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mones.padelTests;
+				PRODUCT_BUNDLE_IDENTIFIER = mones.courtsideTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -575,7 +648,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/padel.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/padel";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/courtside.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/courtside";
 			};
 			name = Debug;
 		};
@@ -589,7 +662,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mones.padelTests;
+				PRODUCT_BUNDLE_IDENTIFIER = mones.courtsideTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -597,7 +670,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/padel.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/padel";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/courtside.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/courtside";
 			};
 			name = Release;
 		};
@@ -609,7 +682,7 @@
 				DEVELOPMENT_TEAM = 39YK2DQP92;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mones.padelUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = mones.courtsideUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -617,7 +690,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = padel;
+				TEST_TARGET_NAME = courtside;
 			};
 			name = Debug;
 		};
@@ -629,7 +702,7 @@
 				DEVELOPMENT_TEAM = 39YK2DQP92;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mones.padelUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = mones.courtsideUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -637,78 +710,23 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = padel;
-			};
-			name = Release;
-		};
-		A1C000000000000000000008 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 39YK2DQP92;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Padel;
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = mones.padel;
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mones.padel.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "watchos watchsimulator";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 26.4;
-			};
-			name = Debug;
-		};
-		A1C000000000000000000009 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 39YK2DQP92;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Padel;
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = mones.padel;
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mones.padel.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "watchos watchsimulator";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+				TEST_TARGET_NAME = courtside;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D0B60E99306DBA4C00F212EC /* Build configuration list for PBXProject "padel" */ = {
+		A1C000000000000000000007 /* Build configuration list for PBXNativeTarget "courtsideWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1C000000000000000000008 /* Debug */,
+				A1C000000000000000000009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0B60E99306DBA4C00F212EC /* Build configuration list for PBXProject "courtside" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0B60EBD306DBA4F00F212EC /* Debug */,
@@ -717,7 +735,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0B60EBF306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "padel" */ = {
+		D0B60EBF306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "courtside" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0B60EC0306DBA4F00F212EC /* Debug */,
@@ -726,7 +744,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0B60EC2306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "padelTests" */ = {
+		D0B60EC2306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "courtsideTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0B60EC3306DBA4F00F212EC /* Debug */,
@@ -735,20 +753,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0B60EC5306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "padelUITests" */ = {
+		D0B60EC5306DBA4F00F212EC /* Build configuration list for PBXNativeTarget "courtsideUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0B60EC6306DBA4F00F212EC /* Debug */,
 				D0B60EC7306DBA4F00F212EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A1C000000000000000000007 /* Build configuration list for PBXNativeTarget "padelWatch" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A1C000000000000000000008 /* Debug */,
-				A1C000000000000000000009 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

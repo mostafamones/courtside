@@ -72,7 +72,7 @@ struct PlayView: View {
                 }
             }
             .sheet(item: $editingRulePreset) { RulePresetEditor(preset: $0) }
-            .navigationTitle("Padel")
+            .navigationTitle("Courtside")
             .toolbarTitleDisplayMode(.inlineLarge)
         }
     }

@@ -1,6 +1,6 @@
 //
-//  padelApp.swift
-//  padel
+//  CourtsideApp.swift
+//  courtside
 //
 //  Created by Mostafa Mones on 01/10/2026.
 //
@@ -27,7 +27,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct padelApp: App {
+struct CourtsideApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var store: AppStore
 
