@@ -1,5 +1,7 @@
 # Courtside
 
+![Courtside match history on iPhone and a live scoreboard synced between iPhone and Apple Watch](docs/courtside.png)
+
 Courtside is a padel scorekeeper for iPhone and Apple Watch. Set up a doubles match, record points on either device, and review the result on your iPhone. The scoreboard shows the current game, set scores, and who serves next. The iPhone app works offline and requires no account.
 
 ## Start a match
